@@ -12,7 +12,7 @@ pipeline {
         }
         stage('build and scan') {
             steps {
-                withCredentials([string(credentialsid: 'sonar-id' , variable: 'SONAT_TOKEN')]){
+                withCredentials([string(credentialsid: 'sonar-id' , variable: 'SONAT-TOKEN')]){
                 withoutSonarQubeEnv('SONAR'){
                 sh '''muv package sonar:sonar \
                 -Dsonar.projectkey=Sampathgoud20_spring-petclinic \
