@@ -12,13 +12,13 @@ pipeline {
         }
         stage('build and scan') {
             steps {
-                withCredentials([string(credentialsid: 'sonar-id' , variable: 'SONAT-TOKEN')]){
-                withoutSonarQubeEnv('SONAR'){
-                sh '''muv package sonar:sonar \
+                withCredentials([string(credentialsId: 'sonar-id' , variable: 'SONAT_TOKEN')]){
+                withSonarQubeEnv('SONAR'){
+                sh '''mvn package sonar:sonar \
                 -Dsonar.projectkey=Sampathgoud20_spring-petclinic \
                 -Dsonar.organization=sampathgoud20 \
-                -Dsonor.host.url=https://sonarcloud.io \
-                -Dsonor.login=$SONAR_TOKEN'''
+                -Dsonar.host.url=https://sonarcloud.io \
+                -Dsonar.login=$SONAR_TOKEN'''
             }
           }
     
