@@ -1,28 +1,29 @@
 pipeline {
-    agent {label 'JAVA'}
-    triggers {
-        pollSCM('* * * * * ')
-    }
+    agent { label 'JAVA' }
+
     stages {
-        stage('git checkout') {
+        stage('Checkout') {
             steps {
-                git url: 'https://github.com/Sampathgoud20/spring-petclinic.git' ,
-                    branch: 'main'
+                checkout scm
             }
         }
-        stage('build and scan') {
+
+        stage('Build & Sonar Scan') {
             steps {
-                withCredentials([string(credentialsId: 'sonar-id' , variable: 'SONAT_TOKEN')]){
-                withSonarQubeEnv('SONAR'){
-                sh '''mvn package sonar:sonar \
-                -Dsonar.projectkey=Sampathgoud20_spring-petclinic \
-                -Dsonar.organization=sampathgoud20 \
-                -Dsonar.host.url=https://sonarcloud.io \
-                -Dsonar.login=$SONAR_TOKEN'''
+                withCredentials([
+                    string(credentialsId: 'sonar-id', variable: 'SONAR_TOKEN')
+                ]) {
+                    withSonarQubeEnv('SONAR') {
+                        sh '''
+                        mvn clean package sonar:sonar \
+                          -Dsonar.projectKey=Sampathgoud20_spring-petclinic \
+                          -Dsonar.organization=sampathgoud20 \
+                          -Dsonar.host.url=https://sonarcloud.io \
+                          -Dsonar.login=$SONAR_TOKEN
+                        '''
+                    }
+                }
             }
-          }
-    
         }
     }
-  }
 }
