@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven-3.9'
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git url: 'https://github.com/your-repo/sample-project.git',
+                    branch: 'main'
+            }
+        }
+
+        stage('Build Project') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Archive JAR File') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+
+        stage('Publish Test Report') {
+            steps {
+                junit 'target/surefire-reports/*.xml'
+            }
+        }
+    }
+}
