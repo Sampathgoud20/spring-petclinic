@@ -53,6 +53,11 @@ pipeline {
                    docker push 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest """
         }
       }
+     stage('deploy to k8s for dev'){
+        steps{
+            sh ''' kubectl apply -f deployment/. '''
+            }
+        }
     
     }
 
