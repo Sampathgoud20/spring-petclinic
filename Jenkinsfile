@@ -12,11 +12,11 @@ pipeline {
                 checkout scm
             }
         }
-        stage('git url'){
-            steps{
-                sh ''' git clone "https://github.com/Sampathgoud20/spring-petclinic.git" '''
-            }
-        }
+        // stage('git url'){
+        //     steps{
+        //         sh ''' git clone "https://github.com/Sampathgoud20/spring-petclinic.git" '''
+        //     }
+        // }
         
 
         // stage('Build & Sonar Scan') {
@@ -36,10 +36,15 @@ pipeline {
         //         }
         //     }
         // }
+      stage('Build App') {
+         steps {
+             sh 'mvn clean package -DskipTests'
+           }
+     }
       stage("docker image build" ){
         steps{
             sh """ docker image build -t ${image_name}:${tag_name} . """
-        }
+     }
       }
       stage("trivy scan image push to ecr"){
         steps{
