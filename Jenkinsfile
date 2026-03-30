@@ -11,9 +11,11 @@ pipeline {
             steps {
                 checkout scm
             }
+        stage('git url'){
             steps{
                 git clone "https://github.com/Sampathgoud20/spring-petclinic.git"
             }
+        }
         }
 
         // stage('Build & Sonar Scan') {
@@ -42,7 +44,7 @@ pipeline {
             sh """ aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 612070058498.dkr.ecr.ap-south-1.amazonaws.com && \
                    trivy image ${image_name}:${tag_name}  && \
                    docker tag ${image_name}:${tag_name} 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest && \
-                   docker push 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
+                   docker push 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest """
         }
       }
     }
