@@ -1,6 +1,6 @@
 pipeline {
     agent { label 'JAVA' }
-    Enviroment variables{
+    Enviroment variables {
         image_name=nginx
         tag_name=1.29
 
@@ -10,6 +10,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+            steps{
+                git clone "https://github.com/Sampathgoud20/spring-petclinic.git"
             }
         }
 
