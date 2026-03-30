@@ -1,6 +1,6 @@
 pipeline {
     agent { label 'JAVA' }
-    Enviroment {
+    enviroment {
         image_name=nginx
         tag_name=1.29
 
@@ -14,7 +14,7 @@ pipeline {
         }
         stage('git url'){
             steps{
-                git clone "https://github.com/Sampathgoud20/spring-petclinic.git"
+                sh ''' git clone "https://github.com/Sampathgoud20/spring-petclinic.git" '''
             }
         }
         
