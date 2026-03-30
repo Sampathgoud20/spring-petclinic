@@ -1,6 +1,6 @@
 pipeline {
     agent { label 'JAVA' }
-    enviroment {
+    environment {
         image_name=nginx
         tag_name=1.29
 
