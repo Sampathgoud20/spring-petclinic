@@ -3,7 +3,6 @@ pipeline {
     environment {
         image_name = "nginx"
         tag_name = "1.29"
-
     }
 
     stages {

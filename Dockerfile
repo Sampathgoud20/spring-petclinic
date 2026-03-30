@@ -1,4 +1,4 @@
-FROM maven:eclipse-temurin:17-jdk-focal AS build
+FROM maven:3.9.9-eclipse-temurin-17 AS build AS build
 WORKDIR /app
 COPY . /app
 RUN mvn package -DskipTests
