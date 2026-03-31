@@ -45,33 +45,48 @@ pipeline {
             sh """ docker image build -t ${image_name}:${tag_name} . """
        }
     }
-      stage("trivy scan image push to ecr"){
-        steps{
-            sh """ aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 612070058498.dkr.ecr.ap-south-1.amazonaws.com"""     
-      }
-    }
-      stage("Trivy Scan") {
-        steps {
-        sh """
-        trivy image -f json -o trivy-result.json ${image_name}:${tag_name}
-        python3 trivy-json-to-xml.py
-        """
-        }
-    }
+     
+    stage("Trivy Scan") {
+            steps {
+                sh """
+                echo "DEBUG: workspace"
+                pwd
+                ls -l
 
-      stage("Push Image") {
-     steps {
-        sh """
+                # Run scan
+                trivy image --exit-code 1 --severity CRITICAL \
+                  -f json -o trivy-result.json ${image_name}:${tag_name}
+
+                # Check if script exists
+                ls -l trivy-json-to-xml.py || echo "Script missing!"
+
+                    # Run conversion (only if file exists)
+                if [ -f trivy-json-to-xml.py ]; then
+                    python3 trivy-json-to-xml.py
+                else
+                    echo "Skipping XML conversion"
+                fi
+                """
+            }
+        }
+         stage("trivy scan image push to ecr"){
+        steps{
+            sh """ aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 612070058498.dkr.ecr.ap-south-1.amazonaws.com && \
         docker tag ${image_name}:${tag_name} 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
         docker push 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
         """
       }
     }
-     stage('deploy to k8s for dev'){
-        steps{
-            sh ''' kubectl apply -f deployment/. '''
-            }
+       post {
+        always {
+            archiveArtifacts artifacts: 'trivy-result.json, trivy-result.xml', allowEmptyArchive: true
         }
+    }
+    //  stage('deploy to k8s for dev'){
+    //     steps{
+    //         sh ''' kubectl apply -f deployment/. '''
+    //         }
+    //     }
     
     }
 
