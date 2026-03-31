@@ -3,6 +3,7 @@ pipeline {
     environment {
         image_name = "nginx"
         tag_name = "1.29"
+        ECR_REPO = "612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java"
     }
 
     stages {
@@ -49,13 +50,19 @@ pipeline {
     stage("Trivy Scan") {
             steps {
                 sh """
+                mkdir -p reports
+                
                 echo "DEBUG: workspace"
                 pwd
                 ls -l
 
                 # Run scan
-                trivy image --exit-code 1 --severity CRITICAL \
-                  -f json -o trivy-result.json ${image_name}:${tag_name}
+                trivy image
+                 --exit-code 1 \
+                  --severity HIGH, CRITICAL \
+                  -f json \
+                  -o reports/trivy-result.json \
+                   ${image_name}:${tag_name}
 
                 # Check if script exists
                 ls -l trivy-json-to-xml.py || echo "Script missing!"
@@ -77,11 +84,11 @@ pipeline {
         """
       }
     }
-        stage("post") {
-          steps("always") {
-           sh """ archiveArtifacts artifacts: 'trivy-result.json, trivy-result.xml', allowEmptyArchive: true """
+   post {
+      always {
+         archiveArtifacts artifacts: 'trivy-result.json, trivy-result.xml', allowEmptyArchive: true
+         }
         }
-             }
     //  stage('deploy to k8s for dev'){
     //     steps{
     //         sh ''' kubectl apply -f deployment/. '''
