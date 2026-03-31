@@ -57,11 +57,11 @@ pipeline {
                 ls -l
 
                 # Run scan
-                trivy image
+                trivy image \
                  --exit-code 1 \
-                  --severity HIGH, CRITICAL \
+                  --severity HIGH,CRITICAL \
                   -f json \
-                  -o reports/trivy-result.json \
+                  -o trivy-result.json \
                    ${image_name}:${tag_name}
 
                 # Check if script exists
