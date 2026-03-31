@@ -3,7 +3,7 @@ kind: ReplicaSet
 metadata:
   name: myapp
 spec:
-  replicas: 6
+  replicas: 2
   selector:
     matchLabels:
       app: myapp
@@ -16,6 +16,9 @@ spec:
       - name: myapp
         image: 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
         resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
           limits:
             memory: "1Gi"
             cpu: "512m"
