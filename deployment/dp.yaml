@@ -17,8 +17,8 @@ spec:
         image: 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "500m"
+            memory: "1Gi"
+            cpu: "512m"
         ports:
         - containerPort: 80
 
