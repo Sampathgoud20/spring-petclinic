@@ -52,27 +52,25 @@ pipeline {
                 sh """
                 mkdir -p reports
 
-                echo "DEBUG: workspace"
-                pwd
-                ls -l
+                echo "Scanning image: ${image_name}:${tag_name}"
+                
 
                 # Run scan
                 trivy image \
                  --exit-code 0 \
                   --severity HIGH,CRITICAL \
                   -f json \
-                  -o trivy-result.json \
+                  -o reports/trivy-result.json \
                    ${image_name}:${tag_name}
 
-                # Check if script exists
-                ls -l trivy-json-to-xml.py || echo "Script missing!"
-
-                    # Run conversion (only if file exists)
-                if [ -f trivy-json-to-xml.py ]; then
+                   if [ -f trivy-json-to-xml.py ]; then
                     python3 trivy-json-to-xml.py
-                else
-                    echo "Skipping XML conversion"
+                  else
+                    echo "Script missing!"
                 fi
+
+                echo "Files in reports:"
+                ls -l reports
                 """
             }
         }
@@ -94,7 +92,7 @@ pipeline {
     }
      post {
        always {
-         archiveArtifacts artifacts: 'trivy-result.json, trivy-result.xml', allowEmptyArchive: true
+         archiveArtifacts artifacts: 'reports/*', allowEmptyArchive: true
          }
         }
 
