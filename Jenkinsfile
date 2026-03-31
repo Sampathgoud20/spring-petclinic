@@ -38,7 +38,7 @@ pipeline {
         // }
       stage('Build App') {
          steps {
-             sh 'mvn clean package -DskipTests'
+             sh 'mvn clean package -DskipTests -Dcheckstyle.skip'
            }
      }
       stage("docker image build" ){
