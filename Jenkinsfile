@@ -51,7 +51,7 @@ pipeline {
             steps {
                 sh """
                 mkdir -p reports
-                
+
                 echo "DEBUG: workspace"
                 pwd
                 ls -l
@@ -84,8 +84,8 @@ pipeline {
         """
       }
     }
-   post {
-      always {
+      post {
+       always {
          archiveArtifacts artifacts: 'trivy-result.json, trivy-result.xml', allowEmptyArchive: true
          }
         }
