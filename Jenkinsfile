@@ -84,11 +84,7 @@ pipeline {
         """
       }
     }
-      post {
-       always {
-         archiveArtifacts artifacts: 'trivy-result.json, trivy-result.xml', allowEmptyArchive: true
-         }
-        }
+   
     //  stage('deploy to k8s for dev'){
     //     steps{
     //         sh ''' kubectl apply -f deployment/. '''
@@ -96,6 +92,11 @@ pipeline {
     //     }
     
     }
+     post {
+       always {
+         archiveArtifacts artifacts: 'trivy-result.json, trivy-result.xml', allowEmptyArchive: true
+         }
+        }
 
 // post {
 //         always{
