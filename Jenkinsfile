@@ -47,7 +47,7 @@ pipeline {
       }
       stage("trivy scan image push to ecr"){
         steps{
-            sh """ aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 612070058498.dkr.ecr.ap-south-1""".amazonaws.com && \
+            sh """ aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 612070058498.dkr.ecr.ap-south-1.amazonaws.com"""
                 
       }
       stage("Trivy Scan") {
