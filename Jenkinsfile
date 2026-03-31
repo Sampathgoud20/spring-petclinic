@@ -83,20 +83,21 @@ pipeline {
         """
       }
     }
-   
-   
-    
-    }
-     post {
-       always {
-         archiveArtifacts artifacts: 'reports/*', allowEmptyArchive: true
-         }
-        }
      stage('deploy to k8s for dev'){
         steps{
             sh ''' kubectl apply -f deployment/. '''
             }
         }
+   
+   
+    
+    }
+    //  post {
+    //    always {
+    //      archiveArtifacts artifacts: 'reports/*', allowEmptyArchive: true
+    //      }
+    //     }
+    
 
 // post {
 //         always{
