@@ -85,9 +85,7 @@ pipeline {
     }
      stage('deploy to k8s for dev'){
         steps{
-            withCredentials([
-                [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'eksctl']
-            ])
+            withCredentials([file[credentialsId: 'eksctl', variable: 'KUBECONGIG']])
             sh ''' kubectl apply -f deployment/. '''
             }
         }
