@@ -85,7 +85,7 @@ pipeline {
     }
      stage('deploy to k8s for dev'){
         steps{
-            withCredentials([file[credentialsId : 'eksctl', variable : 'KUBECONGIG']])
+            withCredentials([file(credentialsId: 'eksctl', variable: 'KUBECONGIG')])
             sh ''' kubectl apply -f deployment/. '''
             }
         }
