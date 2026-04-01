@@ -87,7 +87,7 @@ pipeline {
         steps{
             withCredentials([file(credentialsId: 'eksctl', variable: 'KUBECONFIG')]){
             // export KUBECONFIG=$KUBECONFIG
-            sh ''' kubectl apply -f deployment/ --validate=false '''
+            sh ''' kubectl apply -f deployment/. '''
             }
             }
         }
