@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: my-dp 
 spec:
+  minReadySeconds: 5
   replicas: 4
   selector:
     matchLabels:
