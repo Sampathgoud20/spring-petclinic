@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
+        image: 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java
         resources:
           requests:
             memory: "512Mi"
