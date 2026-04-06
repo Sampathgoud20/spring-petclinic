@@ -55,7 +55,7 @@ pipeline {
                 echo "Scanning image: ${image_name}:${tag_name}"
                 
 
-                // # Run scan
+                //  Run scan
                 // trivy image \
                 //  --exit-code 0 \
                 //   --severity HIGH,CRITICAL \
