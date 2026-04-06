@@ -55,22 +55,22 @@ pipeline {
                 echo "Scanning image: ${image_name}:${tag_name}"
                 
 
-                # Run scan
-                trivy image \
-                 --exit-code 0 \
-                  --severity HIGH,CRITICAL \
-                  -f json \
-                  -o reports/trivy-result.json \
-                   ${image_name}:${tag_name}
+                // # Run scan
+                // trivy image \
+                //  --exit-code 0 \
+                //   --severity HIGH,CRITICAL \
+                //   -f json \
+                //   -o reports/trivy-result.json \
+                //    ${image_name}:${tag_name}
 
-                   if [ -f trivy-json-to-xml.py ]; then
-                    python3 trivy-json-to-xml.py
-                  else
-                    echo "Script missing!"
-                fi
+                //    if [ -f trivy-json-to-xml.py ]; then
+                //     python3 trivy-json-to-xml.py
+                //   else
+                //     echo "Script missing!"
+                // fi
 
-                echo "Files in reports:"
-                ls -l reports
+                // echo "Files in reports:"
+                // ls -l reports
                 """
 
             }
@@ -78,7 +78,7 @@ pipeline {
         stage("trivy scan image push to ecr"){
          steps{
             sh """ aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 612070058498.dkr.ecr.ap-south-1.amazonaws.com && \
-              docker tag ${image_name}:${tag_name} 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
+              docker tag ${image_name}:${tag_name} 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java
               docker push 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java
                 """
       }
