@@ -78,9 +78,9 @@ pipeline {
         stage("trivy scan image push to ecr"){
          steps{
             sh """ aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 612070058498.dkr.ecr.ap-south-1.amazonaws.com && \
-        docker tag ${image_name}:${tag_name} 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
-        docker push 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
-        """
+              docker tag ${image_name}:${tag_name} 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
+              docker push 612070058498.dkr.ecr.ap-south-1.amazonaws.com/dev/java:latest
+                """
       }
     }
      stage('deploy to k8s for dev'){

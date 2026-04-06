@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: my-red-svc
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: myapp
   ports:
   - port: 80
-    nodePort: 31200
+   
