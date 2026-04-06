@@ -55,22 +55,22 @@ pipeline {
                 echo "Scanning image: ${image_name}:${tag_name}"
                 
 
-                //  Run scan
-                // trivy image \
-                //  --exit-code 0 \
-                //   --severity HIGH,CRITICAL \
-                //   -f json \
-                //   -o reports/trivy-result.json \
-                //    ${image_name}:${tag_name}
+               /*  Run scan
+                 trivy image \
+                 --exit-code 0 \
+                  --severity HIGH,CRITICAL \
+                  -f json \
+                  -o reports/trivy-result.json \
+                   ${image_name}:${tag_name}
 
-                //    if [ -f trivy-json-to-xml.py ]; then
-                //     python3 trivy-json-to-xml.py
-                //   else
-                //     echo "Script missing!"
-                // fi
+                   if [ -f trivy-json-to-xml.py ]; then
+                    python3 trivy-json-to-xml.py
+                  else
+                    echo "Script missing!"
+                fi
 
-                // echo "Files in reports:"
-                // ls -l reports
+                echo "Files in reports:"
+                ls -l reports*\
                 """
 
             }
@@ -86,7 +86,7 @@ pipeline {
      stage('deploy to k8s for dev'){
         steps{
             withCredentials([file(credentialsId: 'eksctl', variable: 'KUBECONFIG')]){
-            // export KUBECONFIG=$KUBECONFIG
+            export KUBECONFIG=$KUBECONFIG
             sh ''' kubectl apply -f deployment/. '''
             }
             }
